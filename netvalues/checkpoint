@@ -1,0 +1,2 @@
+model_checkpoint_path: "qlearn_cozmo1.ckpt"
+all_model_checkpoint_paths: "qlearn_cozmo1.ckpt"
