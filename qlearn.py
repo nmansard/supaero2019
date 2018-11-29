@@ -16,6 +16,10 @@ import time
 import signal
 import matplotlib.pyplot as plt
 import random
+import numpy as np
+import tensorflow as tf
+import numpy as np
+import tflearn
 
 ### --- Random seed
 RANDOM_SEED = int((time.time()%10)*1000)
@@ -127,7 +131,7 @@ for episode in range(1,NEPISODES):
     # \\\END_FOR step in range(NSTEPS)
 
     # Display and logging (not mandatory).
-    print('Ep#{:3d}: lasted {:d} steps, reward={:3.0f}' .format(episode, step,rsum, maxq))
+    print('Ep#{:3d}: lasted {:d} steps, reward={:3.0f}' .format(episode, step,rsum))
     h_rwd.append(rsum)
     h_ste.append(step)
     if not (episode+1) % 200:     rendertrial(30)

@@ -24,7 +24,7 @@ env = Env(discretize_x=True,discretize_u=True)
 NX  = env.nx                            # Number of (discrete) states
 NU  = env.nu                            # Number of (discrete) controls
 env.x0     = env.encode_x(np.array([0.,0.,1.,0.])) # State 665
-env.solved = lambda x: x==env.x0        # Problem solved if reached 0010
+env.cost = lambda x,u: env.encode_x(x)==env.x0     # Problem solved if reached 0010
 
 Q     = np.zeros([env.nx,env.nu])       # Q-table initialized to 0
 
@@ -33,9 +33,9 @@ def rendertrial(maxiter=100):
     s = env.reset()
     for i in range(maxiter):
         a = np.argmax(Q[s,:])
-        s,_ = env.step(a)
+        s,r = env.step(a)
         env.render()
-        if env.solved(s): print('Reward!'); break
+        if r: print('Reward!'); break
 
 signal.signal(signal.SIGTSTP, lambda x,y:rendertrial()) # Roll-out when CTRL-Z is pressed
 h_rwd = []                              # Learning history (for plot).
@@ -45,8 +45,7 @@ for episode in range(1,NEPISODES):
     rsum = 0.0
     for steps in range(NSTEPS):
         u         = np.argmax(Q[x,:] + np.random.randn(1,NU)/episode) # Greedy action with noise
-        x2,_      = env.step(u)
-        reward = 1 if env.solved(x2) else 0
+        x2,reward = env.step(u)
         
         # Compute reference Q-value at state x respecting HJB
         Qref = reward + DECAY_RATE*np.max(Q[x2,:])

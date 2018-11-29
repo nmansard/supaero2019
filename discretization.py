@@ -33,7 +33,8 @@ class VectorDiscretization:
 
     def flatten(self,vd):
         '''change an array of int to a flat int.'''
-        assert( np.all(vd<self.nsteps) )
+        #assert( np.all(vd<self.nsteps) )
+        vd = np.clip( vd,0,self.nsteps-1 )
         # Return (((v1)n2+v2)n3+v3)n4+...
         # return reduce(lambda v1_n1,v2_n2: (v1_n1[0]*v2_n2[1]+v2_n2[0],v1_n1[1]*v2_n2[1]),
         #               zip(vd,self.nsteps))[0]
