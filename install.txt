@@ -16,3 +16,29 @@ export LD_LIBRARY_PATH=/opt/openrobots/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=/opt/openrobots/lib/python2.7/site-packages:$PYTHONPATH
 ' >> ~/.bashrc
 source ~/.bashrc
+
+
+=== Installing Cozmo SDK on your phone and your PC
+
+*** On the phone.
+1. Install cozmo
+2. Connect to Cozmo wireless
+3. Plug the phone to computer by USB
+4. Enable the USB debuging https://www.kingoapp.com/root-tutorials/how-to-enable-usb-debugging-mode-on-android.htm
+5. Activate debuging (in phone parameter, developer options, activate)
+   - activate the main switch
+   - activate "debug" mode
+6. Check USB debuging in terminal by asking adb
+   (cozmo) nmansard@koyasan:cozmo [18:22] adb devices
+   List of devices attached 
+   ZY22366T55	device
+7. In the cozmo app, go to connect, then parameters (top-right icon) >> activate SDK
+
+*** On the computer.
+1. http://cozmosdk.anki.com/docs/install-linux.html
+Everything is already set up using the command lines above.
+2. Run a test
+   python3 cozmo_example.py
+   
+
+
