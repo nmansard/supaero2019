@@ -61,9 +61,12 @@ class Cozmo1(object):
             self.encode_u = lambda u:u
             self.decode_u = lambda u:u
         if discretize_x:
-            self.discretize_x = VectorDiscretization(2,vmax=self.xmax,nsteps=10)
-            self.encode_x = self.discretize_x.c2i
-            self.decode_x = self.discretize_x.i2c
+            XM = np.concatenate([self.xmax[:2],[np.pi]])
+            xycs2sxth = lambda x: np.array([ x[0],x[1],np.arctan2(x[3],x[2])])
+            xyth2sxcs = lambda x: np.array([ x[0],x[1],np.cos(x[2]),np.sin(x[2])])
+            self.discretize_x = VectorDiscretization(3,vmax=XM,nsteps=21)
+            self.encode_x = lambda xc: self.discretize_x.c2i(xycs2sxth(xc))
+            self.decode_x = lambda xi: xyth2sxcs(self.discretize_x.i2c(xi))
         else:
             self.discretize_x = None
             self.encode_x = lambda x:x
@@ -77,7 +80,9 @@ class Cozmo1(object):
         self._ax = None
         self._plotobject_right = None; self._plotobject_left = None
         self.expected_shape = [1,4]
-        self.reshape_x = lambda x: np.reshape(x,self.expected_shape) if self.discretize_x is None else lambda x:x
+        self.reshape_x = (lambda x: np.reshape(x,self.expected_shape))\
+                         if self.discretize_x is None \
+                         else (lambda x:x)
         
     @property
     def nu(self): return 2 if self.discretize_u is None else self.discretize_u.nd
