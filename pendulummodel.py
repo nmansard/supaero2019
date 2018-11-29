@@ -264,7 +264,7 @@ DU = 2.0*(UMAX)/NU
 
 # Continuous to discrete
 def c2dq(q):
-    q = (q+pi)%(2*np.pi)
+    q = (q+np.pi)%(2*np.pi)
     return int(round(q/DQ))  % NQ
 
 def c2dv(v):
@@ -282,7 +282,7 @@ def c2d(qv):
 # Discrete to continuous
 def d2cq(iq):
     iq = np.clip(iq,0,NQ-1)
-    return iq*DQ - pi
+    return iq*DQ - np.pi
 
 def d2cv(iv):
     iv = np.clip(iv,0,NV-1) - (NV-1)/2
