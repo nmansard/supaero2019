@@ -47,7 +47,7 @@ class Cozmo1(object):
         '''
         # The state is stored as x_pos,y_pos,cos(theta),sin(theta), with c**2+s**2=1
         # The control is the velocities of right and left tracks u = vr,vl.
-        self.xmax = np.array([ .2,  .2, 1., 1. ])       # Bounds of the state.
+        self.xmax = np.array([ .5,  .5, 1., 1. ])       # Bounds of the state.
         self.xmin = -self.xmax                          # Lower bounds of the state
         self.umax = np.array([ .55, .55 ])              # Upper bound of control
         self.umin = -self.umax                          # Lower bound of control
@@ -69,7 +69,7 @@ class Cozmo1(object):
             self.encode_x = lambda x:x
             self.decode_x = lambda x:x
         # Model parameters
-        self.delta = .1                                 # Space between the two caterpillars
+        self.delta = .06                                # Space between the two caterpillars
         self.dt               = .1                      # Duration of one step(x,u)
         self.integrationSteps = 10                      # Number of internal integration in one
                                                         # step (of time dt/steps)
@@ -97,7 +97,9 @@ class Cozmo1(object):
             self._plotobject_left = None
             self._plotobject_right = None
             if plt.axis() == (0,1,0,1):
-                plt.axis([ self.xmin[0]-2*sc,self.xmax[0]+2*sc,self.xmin[1]-2*sc,self.xmax[1]+2*sc])
+                d = self.xmax[:2] - self.xmin[:2]
+                plt.axis([ self.xmin[0]-.1*d[0],self.xmax[0]+.1*d[0],
+                           self.xmin[1]-.1*d[1],self.xmax[1]+.1*d[1]])
         else:
             if self._plotobject_right is not None: self._plotobject_right.remove()
             if self._plotobject_left is not None: self._plotobject_left.remove()
@@ -154,7 +156,7 @@ class Cozmo1(object):
         dx_dt  = np.array([ v*c,v*s, -s*w, c*w ])
         return dx_dt
     def display(self,x):
-        sc,delta = .1,self.delta
+        sc,delta = self.delta,self.delta
         import matplotlib.pyplot as plt
         a,b,c,s = x[:4]
         refs = []
