@@ -13,7 +13,7 @@ import time
 
 ### --- Random seed
 RANDOM_SEED = int((time.time()%10)*1000)
-print "Seed = %d" % RANDOM_SEED
+print("Seed = %d" % RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 tf.set_random_seed(RANDOM_SEED)
 
@@ -66,7 +66,7 @@ def rendertrial(maxiter=100):
         u = sess.run(qvalue.u,feed_dict={ qvalue.x:onehot(x) })
         x,r = env.step(u)
         env.render()
-        if r==1: print 'Reward!'; break
+        if r==1: print('Reward!'); break
 signal.signal(signal.SIGTSTP, lambda x,y:rendertrial()) # Roll-out when CTRL-Z is pressed
 
 ### --- History of search
@@ -96,9 +96,9 @@ for episode in range(1,NEPISODES):
         if reward == 1: break
 
     h_rwd.append(rsum)
-    if not episode%20: print 'Episode #%d done with %d sucess' % (episode,sum(h_rwd[-20:]))
+    if not episode%20: print('Episode #%d done with %d sucess' % (episode,sum(h_rwd[-20:])))
 
-print "Total rate of success: %.3f" % (sum(h_rwd)/NEPISODES)
+print("Total rate of success: %.3f" % (sum(h_rwd)/NEPISODES))
 rendertrial()
 plt.plot( np.cumsum(h_rwd)/range(1,NEPISODES) )
 plt.show()
