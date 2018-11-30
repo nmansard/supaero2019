@@ -10,7 +10,7 @@ class Graph:
                               # Each node corresponds to one entry of the dict.
                               # The corresponding dict data is the list of children, i.e.
                               # nodes reachable from the parent node.
-     def addNode(self, q=None):
+    def addNode(self, q=None):
           '''
           Create the memory to store a new edge. Initialize all components to None.
           Create an empty list of children.
@@ -20,7 +20,7 @@ class Graph:
           self.q.append(q)
           return idx
 
-     def addEdge(self,first,second,orientation = 0):
+    def addEdge(self,first,second,orientation = 0):
           '''
           Add edge from first to second. Also add edge from second to first if orientation
           is null.
