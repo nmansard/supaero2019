@@ -114,7 +114,7 @@ class Cozmo1(object):
         '''
         This method internally calls self.randomState() and stores the results. 
         '''
-        x =  self.randomState() if x is None else np.reshape(self.decode_x(x),[self.nx])
+        x =  self.randomState() if x is None else np.reshape(self.decode_x(x),[4])
         self.x = self.encode_x(x)
         return self.reshape_x(self.x)
     def step(self,u):
