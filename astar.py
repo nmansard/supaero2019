@@ -1,3 +1,7 @@
+import numpy as np
+from numpy.linalg import norm
+import heapq
+
 class Graph:
     '''
     Simple Graph structure, with nodes stored as a flat list (you can put 
