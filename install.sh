@@ -17,7 +17,18 @@ export PYTHONPATH=/opt/openrobots/lib/python2.7/site-packages:$PYTHONPATH
 ' >> ~/.bashrc
 source ~/.bashrc
 
+export WITH_PYOMO=
 
+if [ ! -z $WITH_PYOMO ] ; then
+  cd /tmp   
+  wget https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+  sh Anaconda3-5.3.1-Linux-x86_64.sh
+  conda install -c conda-forge pyomo
+  #conda install -c conda-forge pyomo.extra
+  conda install -c conda-forge ipopt
+fi 
+
+'
 === Installing Cozmo SDK on your phone and your PC
 
 *** On the phone.
@@ -41,4 +52,4 @@ Everything is already set up using the command lines above.
    python3 cozmo_example.py
    
 
-
+'
