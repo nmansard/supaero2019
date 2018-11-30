@@ -1,0 +1,96 @@
+1. Taking a driving exam (a.k.a introduction to the class with Cozmo
+====================================================================
+
+Objective
+---------
+This material is to be used with the introduction class of the Robotics ISAE 2018-2019.
+It will guide you through the main stages of the class with the following algorithms: A*, Q-Table, (deep) Q-learning, Trajectory optimization, with the final objective to drive the mobile robot Cozmo through a maze (well, in a first time, to park it would be already something).
+
+Tutorial 1.0 Prerequisites
+--------------------------
+Follow install.sh (and read install.txt) to set up your environment, or copy the virtual-box image, following the next paragraph.
+
+The tutorial can be performed inside a virtual machine, under VirtualBox. VirtualBox is a free software, available on most platforms (Linux, Windows, MacOS). The virtual machine runs a Ubuntu 16.04 64bits, with our software installed on it.
+
+*    Install VirtualBox for your computer from here: https://www.virtualbox.org/wiki/Downloads.
+*    Download the virtual image. The image about 2,8Gb: expect from 10 minutes to 1 hour of downloading time, depending on the bandwidth from your network to our lab. Download here: http://homepages.laas.fr/nmansard/teach/u1604x64_2019.ova.
+*    Import the virtual image in VirtualBox, using the procedure described here.
+*    Start the virtual machine. The system auto log on the main user (ID student, password student). This user owns sudoer privilege.
+*    [optional] A complete tutorial about VirtualBox, along with an explanation of what is virtualization, is available here: http://www.virtualbox.org/manual/
+*    [optimal] A Md5 checksum for each image is available here: http://homepages.laas.fr/nmansard/teach/u1604x64_2019.md5. This file can be used that the .ova file has been properly downloaded. Under Linux, check by first downloading both files .ova and .md5 in the same directory and then typing md5sum -c u1404x32.md5. 
+
+Tutorial 1.1 Load and play with the models
+------------------------------------------
+
+The model (also called environment) have 3 main methods: reset (to initialize it to a random configuration), step(u) (to make the system execute a control) and render (to display the model at current state).
+
+In pendulummodel, use env=DiscretePendulum() to create a discrete-state discrete control of a 1-dof pendulum. Works only with python2.7. First run gepetto-gui to have the display.
+
+[source] 
+----
+gepetto-gui &
+ipython -i
+----
+
+[source]
+----
+from pendulummodel import DiscretePendulum
+env = DiscretePendulum()
+print('Model has dims nx=%d nu=%d' % (env.nx,env.nu) )
+env.reset()
+env.render()
+----
+
+In cozmomodel, you have a velocity-controlled model that can be made discrete or continuous. Make it discrete.
+[source]
+----
+from cozmomodel import Cozmo1 as Env
+env = Env(discretize_x=True, discretize_u=True)
+print('Model has dims nx=%d nu=%d' % (env.nx,env.nu) )
+env.reset()
+env.render()
+----
+
+
+Tutorial 1.2 A* (pronounce a-star) algorithm
+--------------------------------------------
+
+The file astar.py contains a sketch of graph structure (i.e. nodes and oriented edges connecting nodes) and a A-star algorithm that takes such a Graph as input (expecting the nodes to be matrices, i.e. you can sum them and norm the difference, e.g numpy array or matrices).
+
+*Question #1* Starting from any configuration you choose (for example, x=env.reset(0)), run a greedy algorithm to build the connection graph. Then run A* from and to arbitrary configurations, using your choice of heuristic.
+
+Tutorial 1.3 Q-table algorithm
+------------------------------
+
+The algorithm is provided in qtable.py for Cozmo. Read it, understand it, and ...
+
+*Question #2* ... make it run for the Pendulum.
+
+Tutorial 1.4 Deep Q-table algorithm
+-----------------------------------
+This is a dummy step to drive you from the Q-table algorithm to the smarter Q-learn algorithm. A deep version of the qtable is provided in deeptable.py. It should run for the pendulum (might be difficult on the VirtualBox).
+
+*Question 3* Try it on the cozmo model. Slow, isn't it?
+
+Tutorial 1.5 Q-learning algorithm
+---------------------------------
+The Q-learning algorithm is provided in qlearn.py, based on a Q-network defined in qnetwork.py. It runs for the cozmo model. A optimal initialization of the network is stored in netvalues/ (restore it by uncommenting the line of code in the qlearn.py file).
+
+*Question 4* Modify the environment to add obstacles, corresponding to strong penalties. Train again.
+
+Tutorial 1.6 Optimal policy on Cozmo
+------------------------------------
+The policy can now be used to drive Cozmo. First connect the robot, run cozmoshell.py (only with Python3) to make it sure that you have it well connected. The learn Q-network is implemented in cozmocontrol.py and drives the robot.
+
+*Question 5* Implement the obstacle-aware network on the robot.
+
+Tutorial 1.7 Optimal trajectory
+-------------------------------
+The trajectory optimization algorithm is implemented in trajopt.py. Make it run.
+
+*Question bonus* Add obstacle cost, extract the trajectories to guide the Q-network training. Does it work? This is called Guided-Policy Search. You are now at the state of the art.
+
+
+
+
+
