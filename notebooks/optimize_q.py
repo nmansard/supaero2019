@@ -1,3 +1,24 @@
+'''
+Stand-alone program to optimize the configuration q=[q1,q2] of a 2-R robot with
+scipy BFGS.
+'''
+
+import numpy as np
+from scipy.optimize import fmin_bfgs, fmin_slsqp
+import gviewserver
+import time
+
+def placement(x,y,theta):
+    return [ y, 0, x,  0,np.sin(theta/2), 0, np.cos(theta/2) ]
+
+gv = gviewserver.GepettoViewerServer()
+
+gv.addSphere ('world/joint1',    .1,    [1 ,0 ,0,1])
+gv.addSphere ('world/joint2',    .1,    [1 ,0 ,0,1])
+gv.addSphere ('world/joint3',    .1,    [1 ,0 ,0,1])
+gv.addCapsule('world/arm1', .05,.75,    [1 ,1 ,1,1])
+gv.addCapsule('world/arm2', .05,.75,    [1 ,1 ,1,1])
+
 def display2d(q):
     '''Display the robot in Gepetto Viewer. '''
     assert(q.shape == (2,1) )
@@ -27,7 +48,7 @@ def cost(q):
 def callback(q):
     q = np.matrix(q).T
     display2d(q)
-    import time; time.sleep(.1)
+    time.sleep(.5)
     
 x0 = np.array([0.0,0.0])
 xopt_bfgs = fmin_bfgs(cost, x0, callback=callback)

@@ -1,4 +1,8 @@
-# Example of use a the optimization toolbox of SciPy.
+'''
+Example of use a the optimization toolbox of SciPy.
+The function optimized here are meaningless, and just given 
+as example. They ***are not*** related to the robotic models.
+'''
 import numpy as np
 from scipy.optimize import fmin_bfgs, fmin_slsqp
 
