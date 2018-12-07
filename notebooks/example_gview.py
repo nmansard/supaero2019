@@ -6,7 +6,7 @@ import pinocchio.utils as utils
 
 
 import gviewserver
-gv = gview.GepettoViewerServer()
+gv = gviewserver.GepettoViewerServer()
 
 gv.addSphere ('world/ball',    .1,         [1 ,0 ,0,1])  # radius, color=[r,g,b,1]
 gv.addCapsule('world/capsule', .05,.75,    [1 ,1 ,1,1])  # radius, length, color = [r,g,b,1]
