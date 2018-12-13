@@ -1,0 +1,7 @@
+Installation Nota-Bene notes:
+from the installation explained at the root of the repo, jupyter 2.7 should be installed from pip2. The following instructions should be run:
+- First, make sure that pip2 is taken from ~/.local/bin, by adding it in your PATH. Double check with `which pip2`.
+- Then upgrade pip2 to version 18 with `pip2 install --user --upgrade pip` . You can double check it with pip2 --version (18.1).
+- Jupyter is now mainly targetting python 3. For using it with Python 2.7, some downgrade of packages should be performed. Install version 10.4 for pykernel with `pip2 install --user ipykernel==4.10.0`.
+- Finally install `pip2 install --user jupyter` ...
+- ... and start it with `jupyter notebook`.
