@@ -96,7 +96,7 @@ for episode in range(1,NEPISODES):
         u       = noisygreedy(x,                                    # Greedy policy ...
                               rand=1. / (1. + episode + step))      # ... with noise
         x2,r    = env.step(u)
-        done    = False                                              # pendulum scenario is endless.
+        done    = r>0
 
         replayDeque.append(ReplayItem(x,u,r,done,x2))                # Feed replay memory ...
         if len(replayDeque)>REPLAY_SIZE: replayDeque.popleft()       # ... with FIFO forgetting.

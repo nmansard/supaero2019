@@ -53,7 +53,7 @@ class Cozmo1(object):
         self.umin = -self.umax                          # Lower bound of control
         # Discretization of X and U
         if discretize_u:
-            self.discretize_u = VectorDiscretization(2,vmax=self.umax,nsteps=11)
+            self.discretize_u = VectorDiscretization(2,vmax=self.umax,nsteps=21)
             self.encode_u = self.discretize_u.c2i
             self.decode_u = self.discretize_u.i2c
         else:
@@ -64,7 +64,7 @@ class Cozmo1(object):
             XM = np.concatenate([self.xmax[:2],[np.pi]])
             xycs2sxth = lambda x: np.array([ x[0],x[1],np.arctan2(x[3],x[2])])
             xyth2sxcs = lambda x: np.array([ x[0],x[1],np.cos(x[2]),np.sin(x[2])])
-            self.discretize_x = VectorDiscretization(3,vmax=XM,nsteps=21)
+            self.discretize_x = VectorDiscretization(3,vmax=XM,nsteps=11)
             self.encode_x = lambda xc: self.discretize_x.c2i(xycs2sxth(xc))
             self.decode_x = lambda xi: xyth2sxcs(self.discretize_x.i2c(xi))
         else:
@@ -149,7 +149,10 @@ class Cozmo1(object):
         This method is called inside step(u).
         '''
         norm = np.linalg.norm
-        return -np.linalg.norm(x-[0,0,1,0])-0.1*np.linalg.norm(u)
+        return -norm(x[:2])     \
+            -.1*norm(x[2:4]-[1,0]) \
+            -0.1*norm(u) \
+            + (20 if norm(x-[0,0,1,0])<1e-2 else 0)
     def dyn(self,x,u):
         '''
         Const method: return f(x,u) = dx/dt 
