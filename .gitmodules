@@ -1,0 +1,9 @@
+[submodule "notebooks/crocoddyl"]
+	path = notebooks/crocoddyl
+	url = https://gepgitlab.laas.fr/loco-3d/crocoddyl
+[submodule "notebooks/models/--name"]
+	path = notebooks/models/--name
+	url = https://gepgitlab.laas.fr/gepetto/example-robot-data
+[submodule "notebooks/models/legged"]
+	path = notebooks/models/legged
+	url = https://gepgitlab.laas.fr/gepetto/example-robot-data
